@@ -1,4 +1,4 @@
-# Pv::Output::Wrapper
+# PvOutputWrapper
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pv/output/wrapper`. To experiment with that code, run `bin/console` for an interactive prompt.
 
@@ -9,7 +9,7 @@ TODO: Delete this and the text above, and describe your gem
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'pv-output-wrapper'
+gem 'pv_output_wrapper'
 ```
 
 And then execute:
@@ -18,11 +18,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install pv-output-wrapper
+    $ gem install pv_output-wrapper
 
 ## Usage
 
-TODO: Write usage instructions here
+Methods names and parameters are the same as those defined by pvoutput.org. Documentation for this gem is effectively the same as that which is found at [pvoutput.org](http://www.pvoutput/api).
 
 ## Development
 
@@ -32,7 +32,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pv-output-wrapper.
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pv_output_wrapper.
 
 
 ## License

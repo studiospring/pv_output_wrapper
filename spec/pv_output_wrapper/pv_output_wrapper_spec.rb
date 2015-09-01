@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Pv::Output::Wrapper do
+describe PvOutputWrapper do
   it 'has a version number' do
-    expect(Pv::Output::Wrapper::VERSION).not_to be nil
+    expect(PvOutputWrapper::VERSION).not_to be nil
   end
 
   it 'does something useful' do
