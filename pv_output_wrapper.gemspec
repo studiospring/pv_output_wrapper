@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = PvOutputWrapper::VERSION
   spec.authors       = ["Sean Loughman"]
   spec.email         = ["lettersforsean@yahoo.co.jp"]
-  spec.summary       = %q{A wrapper around the [www.pvoutput.org api.](http://www.pvoutput.org/help.html#api)}
-  spec.description   = %q{This gem wraps only the parts of the [pvoutput.org api](http://www.pvoutput.org/help.html#api) which are used by Solario.}
+  spec.summary       = 'A wrapper around the [www.pvoutput.org api.](http://www.pvoutput.org/help.html#api)'
+  spec.description   = 'This gem wraps only the parts of the [pvoutput.org api](http://www.pvoutput.org/help.html#api) which are used by Solario.'
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
