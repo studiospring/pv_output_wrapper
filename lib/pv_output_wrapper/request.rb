@@ -25,13 +25,13 @@ module PvOutputWrapper
       params.delete_if { |_, v| v.nil? }
       method_name = __method__.to_s
       uri = construct_uri(method_name, params)
-      PvOutputWrapper::Response.new(method_name, get_response(uri))
+      PvOutputWrapper::Response.new(method_name, get_request(uri))
     end
 
     private
 
       # @param [String, URI] full uri including any params.
-      def get_response(uri)
+      def get_request(uri)
         connection = Net::HTTP.new(HOST, 80)
         connection.get(uri, @headers)
       end
