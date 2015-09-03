@@ -5,6 +5,8 @@ require "addressable/uri"
 module PvOutputWrapper
   class Request
     # Do not use OpenURI, apparent security risk.
+    # Method names must be the same as corresponding pvoutput.org api path name,
+    #   with optional underscores.
 
     # Include the scheme to prevent Addressable bug.
     # See {https://github.com/bblimke/webmock/issues/489a}
@@ -18,7 +20,9 @@ module PvOutputWrapper
     end
 
     # @return [PvOutput::Response]
-    def get_statistic(params={})
+    def get_statistic(df: nil, dt: nil, c: nil, crdr: nil, sid: nil)
+      params = binding.local_variables.map { |p| [p, binding.local_variable_get(p.to_s)] }.to_h
+      params.delete_if { |_, v| v.nil? }
       method_name = __method__.to_s
       uri = construct_uri(method_name, params)
       PvOutputWrapper::Response.new(method_name, get_response(uri))
