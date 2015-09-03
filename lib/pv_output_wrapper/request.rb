@@ -4,23 +4,29 @@ require "addressable/uri"
 
 module PvOutputWrapper
   class Request
-    BASE_URI = 'http://www.pvoutput.org/service'
+    # Do not use OpenURI, apparent security risk.
+
+    # Include the scheme to prevent Addressable bug.
+    # See {https://github.com/bblimke/webmock/issues/489a}
+    HOST = 'http://www.pvoutput.org'
 
     def initialize(api_key, system_id)
-      @api_key = api_key
-      @system_id = system_id
+      @headers = {
+        'X-Pvoutput-Apikey' => api_key,
+        'X-Pvoutput-Systemid' => system_id
+      }
+      @connection = Net::HTTP.new(HOST, 80)
     end
 
-    # @return [Net::HTTP]
-    def request(uri)
-      req = Net::HTTP::Get.new(uri)
-      req['X-Pvoutput-Apikey'] = @api_key
-      req['X-Pvoutput-SystemId'] = @system_id
-      req
+    # @param [String, URI] full uri including any params.
+    def get_request(uri)
+      Net::HTTP::Get.new(uri)
     end
 
+    # @param [String] service path as defined by pvoutput.org.
     def service_path(service)
-      "#{BASE_URI}/#{revision}/#{service}.jsp/{?query*}"
+      uri_string = "#{HOST}/service/#{revision}/#{service}.jsp/{?query*}"
+      Addressable::URI.parse(uri_string)
     end
 
     # @return [String] the api revision number.
@@ -29,39 +35,17 @@ module PvOutputWrapper
     end
 
     # @params [String] service name, [Hash] query params.
-    # @return [Addressable::Uri] pvoutput uri.
+    # @return [Addressable::URI] pvoutput uri.
     def construct_uri(service, params={})
       template = Addressable::Template.new(service_path(service))
       template.expand({"query" => params})
     end
 
-    # Make GET request to pvoutput api.
-    # @return response (string).
-    def get(service, params={})
-      uri = construct_uri(service, params)
-      req = request(uri)
-
-      res = Net::HTTP.start(uri.host, 80) do |http|
-        http.request(req).body
-      end
-
-      # begin
-      #   response = req.read
-      # rescue
-      #   '' # fails silently
-      # else
-      #   case response.status[0][0]
-      #   when '2', '3'
-      #     response
-      #   else
-      #     '' # fails silently
-      #   end
-      # end
-    end
-
-    # @return [Hash<String, >] system data or nil values upon failure.
+    # @return [Hash<String>] system data or nil values upon failure.
     def get_statistic(params={})
-      get('getstatistic', params)
+      uri = construct_uri('getstatistic', params)
+      response = @connection.get(uri, @headers)
+      response.body
 
       # total_output is in watt hours
       # keys = ['total_output', 'efficiency', 'date_from', 'date_to']
