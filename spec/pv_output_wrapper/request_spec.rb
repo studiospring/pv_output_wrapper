@@ -4,7 +4,8 @@ require "addressable/uri"
 describe PvOutputWrapper::Request do
   describe 'get_statistic' do
     before do
-      @base_uri = "http://www.pvoutput.org/service/r2/"
+      # Malformed uri is to correct a Webmock/Addressable bug.
+      @base_uri = "http://http//www.pvoutput.org:80/service/r2/"
       @request = PvOutputWrapper::Request.new('my_api_key', 'my_system_id')
       @response_body = "246800,246800,8226,2000,11400,3.358,27,20100901,20100927,4.653,20100916"
       @headers = {'Accept'=>'*/*',
@@ -23,7 +24,7 @@ describe PvOutputWrapper::Request do
           to_return(:status => 200, :body => @response_body)
       end
 
-      it "should return a string" do
+      it "should return the correct response body." do
         expect(@request.get_statistic).to eq(@response_body)
       end
     end
@@ -36,7 +37,7 @@ describe PvOutputWrapper::Request do
           to_return(:status => 200, :body => @response_body)
       end
 
-      it "should return a string" do
+      it "should return the correct response body." do
         expect(@request.get_statistic({'foo' => 'bar'})).to eq(@response_body)
       end
     end
