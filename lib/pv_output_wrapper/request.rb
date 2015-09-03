@@ -19,14 +19,9 @@ module PvOutputWrapper
 
     # @return [PvOutput::Response]
     def get_statistic(params={})
-      uri = construct_uri('getstatistic', params)
-      get_response(uri).body
-
-      # total_output is in watt hours
-      # keys = ['total_output', 'efficiency', 'date_from', 'date_to']
-      # results_array = response.split(/,/)
-      # selected_results = results_array.values_at(0, 5, 7, 8)
-      # Hash[keys.zip selected_results]
+      method_name = __method__.to_s
+      uri = construct_uri(method_name, params)
+      PvOutputWrapper::Response.new(method_name, get_response(uri))
     end
 
     private
@@ -40,7 +35,8 @@ module PvOutputWrapper
       # @params [String] service name, [Hash] query params.
       # @return [Addressable::URI] pvoutput uri.
       def construct_uri(service, params={})
-        template = Addressable::Template.new(service_path(service))
+        service_name = service.delete "_"
+        template = Addressable::Template.new(service_path(service_name))
         template.expand({"query" => params})
       end
 

@@ -25,7 +25,7 @@ describe PvOutputWrapper::Request do
       end
 
       it "should return the correct response body." do
-        expect(@request.get_statistic).to eq(@response_body)
+        expect(@request.get_statistic.body).to eq(@response_body)
       end
     end
 
@@ -38,7 +38,7 @@ describe PvOutputWrapper::Request do
       end
 
       it "should return the correct response body." do
-        expect(@request.get_statistic(:df => '20150101')).to eq(@response_body)
+        expect(@request.get_statistic(:df => '20150101').body).to eq(@response_body)
       end
     end
 

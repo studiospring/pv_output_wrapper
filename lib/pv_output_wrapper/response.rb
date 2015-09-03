@@ -11,7 +11,6 @@ module PvOutputWrapper
       @response.body
     end
 
-
     # TODO: raise exception
     def parse
       method(@service).call
