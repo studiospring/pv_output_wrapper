@@ -17,7 +17,7 @@ module PvOutputWrapper
       }
     end
 
-    # @return [Hash<String>] system data or nil values upon failure.
+    # @return [PvOutput::Response]
     def get_statistic(params={})
       uri = construct_uri('getstatistic', params)
       get_response(uri).body
