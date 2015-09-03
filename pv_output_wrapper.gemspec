@@ -26,11 +26,11 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "addressable"
+  spec.add_runtime_dependency "addressable", "~> 2.3"
 
   spec.add_development_dependency "bundler", "~> 1.10"
-  spec.add_development_dependency "guard"
-  spec.add_development_dependency "guard-rspec"
+  spec.add_development_dependency "guard", "~> 2.13"
+  spec.add_development_dependency "guard-rspec", "~> 4.6"
 
   case Gem::Platform.local.os
   # OSX 10.8+
@@ -39,14 +39,14 @@ Gem::Specification.new do |spec|
   when /mac|darwin/i
     spec.add_development_dependency "growl"
   when /linux|arch/i
-    spec.add_development_dependency "libnotify"
+    spec.add_development_dependency "libnotify", "~> 0.9"
   when /ms|win/i
     spec.add_development_dependency "rb-notifu"
   end
 
-  spec.add_development_dependency "pry"
+  spec.add_development_dependency "pry", "~> 0.10"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "rubocop"
-  spec.add_development_dependency "webmock"
+  spec.add_development_dependency "rspec", "~> 3.3"
+  spec.add_development_dependency "rubocop", "~> 0.33"
+  spec.add_development_dependency "webmock", "~> 1.21"
 end
