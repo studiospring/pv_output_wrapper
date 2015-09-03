@@ -31,14 +31,14 @@ describe PvOutputWrapper::Request do
 
     context 'when some params are entered' do
       before do
-        uri = @base_uri + "getstatistic.jsp/?foo=bar"
+        uri = @base_uri + "getstatistic.jsp/?df=20150101"
         stub_request(:get, uri)
           .with(:headers => @headers)
           .to_return(:status => 200, :body => @response_body)
       end
 
       it "should return the correct response body." do
-        expect(@request.get_statistic({'foo' => 'bar'})).to eq(@response_body)
+        expect(@request.get_statistic(:df => '20150101')).to eq(@response_body)
       end
     end
 
