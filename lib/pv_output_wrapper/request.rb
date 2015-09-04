@@ -32,8 +32,18 @@ module PvOutputWrapper
 
       # @param [String, URI] full uri including any params.
       def get_request(uri)
-        connection = Net::HTTP.new(HOST, 80)
-        connection.get(uri, @headers)
+        retries = 2
+
+        begin
+          connection = Net::HTTP.new(HOST, 80)
+          connection.get(uri, @headers)
+        rescue StandardError, Timeout::Error => e
+          PvOutputWrapper::Logger.logger.error(e)
+          sleep 2
+          retry if (retries -= 1) > 0
+          connection.finish
+          raise
+        end
       end
 
       # @params [String] service name, [Hash] query params.
