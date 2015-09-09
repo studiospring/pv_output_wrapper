@@ -7,14 +7,6 @@ module PvOutputWrapper
     # Do not use OpenURI, apparent security risk.
     # {http://sakurity.com/blog/2015/02/28/openuri.html}
 
-    # Include the scheme to prevent Addressable bug.
-    # See {https://github.com/bblimke/webmock/issues/489a}
-    HOST = 'http://www.pvoutput.org'
-
-    # Service names must be the same as corresponding pvoutput.org api path name,
-    #   with optional underscores.
-    VALID_SERVICES = [:get_statistic, :get_status]
-
     def initialize(api_key, system_id)
       @headers = {
         'X-Pvoutput-Apikey' => api_key,
