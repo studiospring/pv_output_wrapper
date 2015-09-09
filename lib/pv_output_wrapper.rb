@@ -8,7 +8,7 @@ module PvOutputWrapper
   # Service names must be the same as corresponding pvoutput.org api path name,
   #   with optional underscores.
   VALID_SERVICES = {:get_statistic => [:df, :dt, :c, :crdr, :sid],
-                    :get_status => []}
+                    :get_status => [:d, :t, :h, :asc, :limit, :from, :to, :ext, :sid1]}
 
   class Logger
     attr_accessor :logger
