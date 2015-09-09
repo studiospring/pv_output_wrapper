@@ -1,8 +1,6 @@
 # PvOutputWrapper
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pv/output/wrapper`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+As the name suggests, this gem wraps parts of the www.pvoutput.org [public api](http://www.pvoutput/api) so that you can easily call it from within your Ruby program. Results are available in raw and formatted form.
 
 ## Installation
 
@@ -18,11 +16,21 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install pv_output-wrapper
+    $ gem install pv_output_wrapper
 
 ## Usage
 
 Methods names and parameters are the same as those defined by pvoutput.org. Documentation for this gem is effectively the same as that which is found at [pvoutput.org](http://www.pvoutput/api).
+
+### Example
+```ruby
+request = PvOutputWrapper::Request.new('pvoutput_api_key', 'pvoutput_system_id')
+params = { :df => 20150101 }
+# Returns a PvOutputWrapper::Response instance
+response = request.get_statistic(params)
+# Returns a hash
+parsed_statistics = response.body.parse
+```
 
 ## Development
 
