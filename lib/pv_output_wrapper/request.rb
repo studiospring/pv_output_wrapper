@@ -14,22 +14,12 @@ module PvOutputWrapper
       }
     end
 
-    # TODO: raise and log response errors
-    # @return [PvOutput::Response]
-    # def get_statistic(df: nil, dt: nil, c: nil, crdr: nil, sid: nil)
-    #   params = binding.local_variables.map { |p| [p, binding.local_variable_get(p.to_s)] }.to_h
-    #   params.delete_if { |_, v| v.nil? }
-    #   method_name = __method__.to_s
-    #   uri = construct_uri(method_name, params)
-    #   PvOutputWrapper::Response.new(method_name, get_request(uri))
-    # end
-
     private
 
     # TODO: validate args for each service.
     # @param [Symbol, Hash<Symbol, String>]
     def method_missing(service, **args)
-      get_response(service, args) if VALID_SERVICES.include?(service)
+      get_response(service, args) if PvOutputWrapper::VALID_SERVICES.include?(service)
     end
 
     # TODO: raise and log response errors
@@ -45,7 +35,7 @@ module PvOutputWrapper
       retries = 2
 
       begin
-        connection = Net::HTTP.new(HOST, 80)
+        connection = Net::HTTP.new(PvOutputWrapper::HOST, 80)
         connection.get(uri, @headers)
       rescue StandardError, Timeout::Error => e
         PvOutputWrapper::Logger.logger.error(e)
@@ -61,12 +51,17 @@ module PvOutputWrapper
     def construct_uri(service, params={})
       service_name = service.to_s.delete "_"
       template = Addressable::Template.new(service_path(service_name))
-      template.expand({"query" => params})
+      template.expand({"query" => valid_params(service, params)})
+    end
+
+    # @return [Hash] may be an empty hash if no params are required
+    def valid_params(service, params)
+      params.keep_if { |k, _| PvOutputWrapper::VALID_SERVICES[service].include?(k) }
     end
 
     # @param [String] service path as defined by pvoutput.org.
     def service_path(service)
-      uri_string = "#{HOST}/service/#{revision}/#{service}.jsp/{?query*}"
+      uri_string = "#{PvOutputWrapper::HOST}/service/#{revision}/#{service}.jsp/{?query*}"
       Addressable::URI.parse(uri_string)
     end
 
