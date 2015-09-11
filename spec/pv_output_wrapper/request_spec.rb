@@ -51,7 +51,7 @@ describe PvOutputWrapper::Request do
       end
 
       it 'should raise an error' do
-        expect { @request.get_statistic(:foo => 'bar') }.to raise_error
+        expect { @request.get_statistic(:foo => 'bar') }.to raise_error(ArgumentError)
       end
     end
 
