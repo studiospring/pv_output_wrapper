@@ -55,7 +55,7 @@ module PvOutputWrapper
     def construct_uri(service, params={})
       if invalid_params?(service, params)
         raise ArgumentError,
-          "Invalid params: #{params.keys.inspect} passed to #{service_name} request."
+              "Invalid params: #{params.keys.inspect} passed to #{service} request."
       end
 
       service_name = service.to_s.delete "_"
