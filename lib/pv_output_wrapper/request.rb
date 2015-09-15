@@ -19,7 +19,11 @@ module PvOutputWrapper
 
     # @param [Symbol, Hash<Symbol, String>]
     def method_missing(service, **args)
-      get_response(service, args) if PvOutputWrapper::VALID_SERVICES.include?(service)
+      if PvOutputWrapper::VALID_SERVICES.include?(service)
+        get_response(service, args)
+      else
+        super
+      end
     end
 
     # TODO: raise and log response errors
