@@ -26,9 +26,9 @@ Methods names and parameters are the same as those defined by pvoutput.org. Docu
 ```ruby
 request = PvOutputWrapper::Request.new('pvoutput_api_key', 'pvoutput_system_id')
 params = { :df => 20150101 }
-# Returns a PvOutputWrapper::Response instance
+# Returns a PvOutputWrapper::Response instance.
 response = request.get_statistic(params)
-# Returns a hash
+# Returns a hash.
 parsed_statistics = response.body.parse
 ```
 
@@ -37,6 +37,10 @@ parsed_statistics = response.body.parse
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+### Extending functionality
+
+You can add support for more api calls by whitelisting the method name and its parameters in lib/pv_output_wrapper.rb. If you want to parse the response, you can write a parsing method in lib/pv_output_wrapper/response.rb. Please name the method the same as pv_output.org, but using snake_case.
 
 ## Contributing
 
