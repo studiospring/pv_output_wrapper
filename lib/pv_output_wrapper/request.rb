@@ -22,7 +22,7 @@ module PvOutputWrapper
       if PvOutputWrapper::VALID_SERVICES.include?(service)
         get_response(service, args)
       else
-        super
+        super()
       end
     end
 

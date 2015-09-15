@@ -14,6 +14,9 @@ module PvOutputWrapper
     # TODO: raise exception
     def parse
       method(@service).call
+    rescue NoMethodError
+      {}
+      raise 'Unsupported service.'
     end
 
     private
