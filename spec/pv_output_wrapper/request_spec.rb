@@ -42,6 +42,19 @@ describe PvOutputWrapper::Request do
       end
     end
 
+    context 'when an unrecognised service is requested' do
+      before do
+        uri = @base_uri + "foobar.jsp/"
+        stub_request(:get, uri)
+          .with(:headers => @headers)
+          .to_return(:status => 200, :body => @response_body)
+      end
+
+      it 'should raise an error' do
+        expect { @request.foobar }.to raise_error(NoMethodError)
+      end
+    end
+
     context 'when invalid params are entered' do
       before do
         uri = @base_uri + "getstatistic.jsp/?foo=bar"
@@ -56,18 +69,12 @@ describe PvOutputWrapper::Request do
     end
 
     context 'when required headers are missing' do
-      before do
-        uri = @base_uri + "getstatistic.jsp/"
-        stub_request(:get, uri)
-          .to_return(:status => 401, :body => '')
-      end
-
-      it 'should raise an error' do
-        expect { @request.get_statistic }.to raise_error
-      end
+      # This spec is unnecessary since initializing the Request object without
+      #   header arguments will raise an ArgumentError.
     end
 
     context 'when there is no response' do
+      skip
     end
   end
 end
