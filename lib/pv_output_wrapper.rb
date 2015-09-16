@@ -1,4 +1,6 @@
 require "pv_output_wrapper/version"
+require "pv_output_wrapper/request"
+require "pv_output_wrapper/response"
 
 module PvOutputWrapper
   # Include the scheme to prevent Addressable bug.
