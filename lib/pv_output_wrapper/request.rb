@@ -18,11 +18,12 @@ module PvOutputWrapper
     private
 
     # @param [Symbol, Hash<Symbol, String>]
-    def method_missing(service, **args)
+    def method_missing(service, *args, &block)
       if PvOutputWrapper::VALID_SERVICES.include?(service)
-        get_response(service, args)
+        params = args.fetch(0, {})
+        get_response(service, params)
       else
-        super()
+        super
       end
     end
 

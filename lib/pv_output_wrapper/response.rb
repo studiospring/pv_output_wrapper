@@ -7,6 +7,7 @@ module PvOutputWrapper
       @response = response
     end
 
+    # @return [String]
     def body
       @response.body
     end
