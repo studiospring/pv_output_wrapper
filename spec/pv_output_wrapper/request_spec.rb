@@ -50,8 +50,14 @@ describe PvOutputWrapper::Request do
           .to_return(:status => 200, :body => @response_body)
       end
 
-      it 'should raise an error' do
+      it 'should raise a NoMethodError error' do
         expect { @request.foobar }.to raise_error(NoMethodError)
+      end
+
+      context 'and the method takes an argument' do
+        it 'should raise a NoMethodError error' do
+          expect { @request.foobar('param') }.to raise_error(NoMethodError)
+        end
       end
     end
 
