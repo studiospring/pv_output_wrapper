@@ -1,3 +1,4 @@
+require 'addressable/uri'
 require 'webmock'
 include WebMock::API
 
@@ -11,7 +12,7 @@ class PvoStub
 
   def initialize(service, body, **params)
     @service = service
-    @query = build_query(params)
+    @query = params || {}
     @body = body
     stub
   end
@@ -23,16 +24,11 @@ class PvoStub
       .to_return(:status => 200, :body => @body, :headers => {})
   end
 
-  # @return [String] (should be addressable).
+  # @return [Addressable::URI].
   def construct_uri
-    "http://http//www.pvoutput.org:80/service/r2/#{@service}.jsp/#{@query}"
-  end
-
-  # @arg [Hash]
-  # @return [String] query part of uri.
-  def build_query(**params)
-    ary = params.each_with_object([]) { |(k, v), s| s << "#{k}=#{v}" }
-    ary.join('&').gsub(/\s/, '%20').prepend('?') unless ary.empty?
+    uri = "http://http//www.pvoutput.org:80/service/r2/#{@service}.jsp/{?query*}"
+    template = Addressable::Template.new(uri)
+    template.expand({'query' => @query})
   end
 
   def headers
