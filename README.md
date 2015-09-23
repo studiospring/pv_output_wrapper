@@ -20,12 +20,12 @@ Or install it yourself as:
 
 ## Usage
 
-Methods names and parameters are the same as those defined by pvoutput.org. Documentation for this gem is effectively the same as that which is found at [pvoutput.org](http://www.pvoutput/api).
+Methods names and parameters are the same as those defined by pvoutput.org. Documentation for this gem is effectively the same as that which is found at [pvoutput.org](http://www.pvoutput.org/help.html#api). You will probably need to register at [pvoutput.org](http://pvoutput.org/register.jsp) to get an api_key and system_id. At present, only a subset of the api is supported by this gem, though it is easy to extend its functionality (see below).
 
 ### Example
 ```ruby
 request = PvOutputWrapper::Request.new('pvoutput_api_key', 'pvoutput_system_id')
-params = { :df => 20150101 }
+params = { :df => '20150101' }
 # Returns a PvOutputWrapper::Response instance.
 response = request.get_statistic(params)
 # Returns a hash.
@@ -40,11 +40,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ### Extending functionality
 
-You can add support for more api calls by whitelisting the method name and its parameters in lib/pv_output_wrapper.rb. If you want to parse the response, you can write a parsing method in lib/pv_output_wrapper/response.rb. Please name the method the same as pv_output.org, but using snake_case.
+You can add support for more api calls by whitelisting the method name and its parameters in [lib/pv_output_wrapper.rb](https://github.com/studiospring/pv_output_wrapper/blob/master/lib/pv_output_wrapper.rb). If you want to parse the response, you can write a parsing method in [lib/pv_output_wrapper/response.rb](https://github.com/studiospring/pv_output_wrapper/blob/master/lib/pv_output_wrapper/response.rb). Please name the method the same as pv_output.org, but using snake_case.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pv_output_wrapper.
+Bug reports and pull requests are welcome on GitHub at https://github.com/studiospring/pv_output_wrapper.
 
 
 ## License
