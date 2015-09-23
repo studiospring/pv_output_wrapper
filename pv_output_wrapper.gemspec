@@ -9,7 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Sean Loughman"]
   spec.email         = ["lettersforsean@yahoo.co.jp"]
   spec.summary       = 'A wrapper around the [www.pvoutput.org api.](http://www.pvoutput.org/help.html#api)'
+  # rubocop:disable Metrics/LineLength
   spec.description   = 'This gem wraps only the parts of the [pvoutput.org api](http://www.pvoutput.org/help.html#api) which are used by Solario.'
+  # rubocop:enable Metrics/LineLength
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
@@ -21,7 +23,10 @@ Gem::Specification.new do |spec|
     raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
   end
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(test|spec|features)/})
+  end
+
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
