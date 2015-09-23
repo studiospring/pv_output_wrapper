@@ -1,6 +1,6 @@
 # PvOutputWrapper
 
-As the name suggests, this gem wraps parts of the www.pvoutput.org [public api](http://www.pvoutput/api) so that you can easily call it from within your Ruby program. Results are available in raw and formatted form.
+As the name suggests, this gem wraps parts of the www.pvoutput.org [public api](http://www.pvoutput.org/help.html#api) so that you can easily call it from within your Ruby program. Results are available in raw and formatted form.
 
 ## Installation
 
