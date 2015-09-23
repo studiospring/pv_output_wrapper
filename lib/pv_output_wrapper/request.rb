@@ -7,7 +7,7 @@ module PvOutputWrapper
     # Do not use OpenURI, apparent security risk.
     # {http://sakurity.com/blog/2015/02/28/openuri.html}
 
-    # @param [String]
+    # @arg [String]
     def initialize(api_key, system_id)
       @headers = {
         'X-Pvoutput-Apikey' => api_key,
@@ -17,7 +17,7 @@ module PvOutputWrapper
 
     private
 
-    # @param [Symbol, Hash<Symbol, String>]
+    # @arg [Symbol, Hash<Symbol, String>]
     def method_missing(service, *args, &block)
       if PvOutputWrapper::VALID_SERVICES.include?(service)
         params = args.fetch(0, {})
@@ -28,14 +28,14 @@ module PvOutputWrapper
     end
 
     # TODO: raise and log response errors
-    # @param [Symbol, Hash<Symbol, String>]
+    # @arg [Symbol, Hash<Symbol, String>]
     # @return [PvOutput::Response]
     def get_response(service, args)
       uri = construct_uri(service, args)
       PvOutputWrapper::Response.new(service, get_request(uri))
     end
 
-    # @param [String, URI] full uri including any params.
+    # @arg [String, URI] full uri including any params.
     def get_request(uri)
       retries = 2
 
@@ -51,7 +51,7 @@ module PvOutputWrapper
       end
     end
 
-    # @param [Symbol] service name, [Hash] query params.
+    # @arg [Symbol] service name, [Hash] query params.
     # @return [Addressable::URI] pvoutput uri.
     def construct_uri(service, params={})
       if invalid_params?(service, params)
@@ -76,7 +76,7 @@ module PvOutputWrapper
       params.keep_if { |k, _| PvOutputWrapper::VALID_SERVICES[service].include?(k) }
     end
 
-    # @param [String] service path as defined by pvoutput.org.
+    # @arg [String] service path as defined by pvoutput.org.
     def service_path(service)
       uri_string = "#{PvOutputWrapper::HOST}/service/#{revision}/#{service}.jsp/{?query*}"
       Addressable::URI.parse(uri_string)
