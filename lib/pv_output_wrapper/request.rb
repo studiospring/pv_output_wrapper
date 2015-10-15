@@ -11,7 +11,7 @@ module PvOutputWrapper
     def initialize(api_key, system_id)
       @headers = {
         'X-Pvoutput-Apikey' => api_key,
-        'X-Pvoutput-Systemid' => system_id
+        'X-Pvoutput-SystemId' => system_id
       }
     end
 
