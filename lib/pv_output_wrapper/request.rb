@@ -44,7 +44,7 @@ module PvOutputWrapper
         connection.get(uri, @headers)
       rescue StandardError, Timeout::Error # => e
         # PvOutputWrapper::Logger.logger.error(e)
-        sleep 2
+        sleep 22
         retry if (retries -= 1) > 0
         connection.finish
         raise
