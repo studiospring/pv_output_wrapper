@@ -17,7 +17,7 @@ module PvOutputWrapper
       # }
     end
 
-    private
+    # private
 
     # @arg [Symbol, Hash<Symbol, String>]
     def method_missing(service, *args, &block)
