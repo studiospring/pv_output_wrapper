@@ -42,8 +42,8 @@ module PvOutputWrapper
       begin
         connection = Net::HTTP.new(PvOutputWrapper::HOST, 80)
         connection.get(uri, @headers)
-      rescue StandardError, Timeout::Error => e
-        PvOutputWrapper::Logger.logger.error(e)
+      rescue StandardError, Timeout::Error # => e
+        # PvOutputWrapper::Logger.logger.error(e)
         sleep 2
         retry if (retries -= 1) > 0
         connection.finish
