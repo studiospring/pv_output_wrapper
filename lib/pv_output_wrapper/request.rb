@@ -43,9 +43,10 @@ module PvOutputWrapper
         connection = Net::HTTP.new(PvOutputWrapper::HOST, 80)
         connection.get(uri, @headers)
       rescue SocketError
-        raise "SocketError: requested uri: #{uri}, headers: #{@headers}"
+        raise "SocketError: connection: #{connection.inspect}"
+        # raise "SocketError: requested uri: #{uri}, headers: #{@headers}"
       rescue IOERROR => ioe
-        raise ioe
+        raise ioe.message
       rescue StandardError, Timeout::Error # => e
         # PvOutputWrapper::Logger.logger.error(e)
         sleep 2
