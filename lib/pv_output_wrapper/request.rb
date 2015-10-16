@@ -9,12 +9,12 @@ module PvOutputWrapper
 
     # @arg [String]
     def initialize(api_key, system_id)
-      @api_key = api_key
-      @system_id = system_id
-      # @headers = {
-      #   'X-Pvoutput-Apikey' => api_key,
-      #   'X-Pvoutput-SystemId' => system_id
-      # }
+      # @api_key = api_key
+      # @system_id = system_id
+      @headers = {
+        'X-Pvoutput-Apikey' => api_key,
+        'X-Pvoutput-SystemId' => system_id
+      }
     end
 
     # private
@@ -68,10 +68,7 @@ module PvOutputWrapper
 
       service_name = service.to_s.delete "_"
       template = Addressable::Template.new(service_path(service_name))
-      params = {"query" => valid_params(service, params)}
-      params["key"] = @api_key
-      params["sid"] = @system_id
-      template.expand(params)
+      template.expand({"query" => valid_params(service, params)})
     end
 
     # @return [True, False]
