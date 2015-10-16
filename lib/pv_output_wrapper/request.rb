@@ -9,12 +9,12 @@ module PvOutputWrapper
 
     # @arg [String]
     def initialize(api_key, system_id)
-      # @api_key = api_key
-      # @system_id = system_id
-      @headers = {
-        'X-Pvoutput-Apikey' => api_key,
-        'X-Pvoutput-SystemId' => system_id
-      }
+      @api_key = api_key
+      @system_id = system_id
+      # @headers = {
+      #   'X-Pvoutput-Apikey' => api_key,
+      #   'X-Pvoutput-SystemId' => system_id
+      # }
     end
 
     # private
@@ -44,9 +44,8 @@ module PvOutputWrapper
       begin
         connection = Net::HTTP.new(PvOutputWrapper::HOST, 80)
         connection.get(uri)
-      rescue SocketError
-        raise "SocketError: connection: #{connection.inspect}"
-        # raise "SocketError: requested uri: #{uri}, headers: #{@headers}"
+      rescue SocketError => e
+        raise "Net::HTTP SocketError: #{e.message}, requested uri: #{uri}, headers: "#{@headers}"
       rescue IOERROR => ioe
         raise ioe.message
       rescue StandardError, Timeout::Error # => e
@@ -63,12 +62,15 @@ module PvOutputWrapper
     def construct_uri(service, params={})
       if invalid_params?(service, params)
         raise ArgumentError,
-              "Invalid params: #{params.keys.inspect} passed to #{service} request."
+              "Invalid params: #{params.keys.inspect} passed to #{service.to_s} request."
       end
 
       service_name = service.to_s.delete "_"
       template = Addressable::Template.new(service_path(service_name))
-      template.expand({"query" => valid_params(service, params)})
+      query = valid_params(service, params)
+      query['key'] = @api_key
+      query['sid'] = @system_id
+      template.expand({"query" => query})
     end
 
     # @return [True, False]
@@ -83,9 +85,10 @@ module PvOutputWrapper
       params.keep_if { |k, _| PvOutputWrapper::VALID_SERVICES[service].include?(k) }
     end
 
+    # "http://" must be added here, not to HOST bc Net::HTTP.new takes only the host.
     # @arg [String] service path as defined by pvoutput.org.
     def service_path(service)
-      uri_string = "#{PvOutputWrapper::HOST}/service/#{revision}/#{service}.jsp/{?query*}"
+      uri_string = "http://#{PvOutputWrapper::HOST}/service/#{revision}/#{service}.jsp{?query*}"
       Addressable::URI.parse(uri_string)
     end
 

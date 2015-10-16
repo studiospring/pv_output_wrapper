@@ -12,8 +12,9 @@ module PvOutputWrapper
       @response.body
     end
 
+    # This does not work because response.body is a String.
     # TODO: raise exception
-    def parse
+    def parseyeah
       method(@service).call
     rescue NoMethodError
       {}
