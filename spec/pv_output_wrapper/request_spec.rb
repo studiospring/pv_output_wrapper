@@ -3,6 +3,7 @@ require "addressable/uri"
 
 describe PvOutputWrapper::Request do
   let(:expected_body) { "246800,246800,8226,2000,11400,3.358,27,20100901,20100927,4.653,20100916" }
+
   before do
     # Malformed uri is to correct a Webmock/Addressable bug.
     @request = PvOutputWrapper::Request.new('my_api_key', 'my_system_id')
@@ -21,7 +22,7 @@ describe PvOutputWrapper::Request do
       end
     end
 
-    context 'when some params are entered' do
+    context 'when valid params are entered' do
       let(:query) { {:df => '20150101'} }
       let!(:stub) { PvoStub.new('getstatistic', expected_body, query) }
 
