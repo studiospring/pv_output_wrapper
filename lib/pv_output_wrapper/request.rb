@@ -9,17 +9,15 @@ module PvOutputWrapper
 
     # @arg [String]
     def initialize(api_key, system_id)
-      @api_key = api_key
-      @system_id = system_id
-      # @headers = {
-      #   'X-Pvoutput-Apikey' => api_key,
-      #   'X-Pvoutput-SystemId' => system_id
-      # }
+      @headers = {
+        'X-Pvoutput-Apikey' => api_key,
+        'X-Pvoutput-SystemId' => system_id
+      }
     end
 
-    # private
+    private
 
-    # @arg [Symbol, Hash<Symbol, String>]
+    # @arg [Symbol, Hash{Symbol => String}]
     def method_missing(service, *args, &block)
       if PvOutputWrapper::VALID_SERVICES.include?(service)
         params = args.fetch(0, {})
@@ -30,7 +28,7 @@ module PvOutputWrapper
     end
 
     # TODO: raise and log response errors
-    # @arg [Symbol, Hash<Symbol, String>]
+    # @arg [Symbol, Hash{Symbol => String}]
     # @return [PvOutput::Response]
     def get_response(service, args)
       uri = construct_uri(service, args)
@@ -43,11 +41,11 @@ module PvOutputWrapper
 
       begin
         connection = Net::HTTP.new(PvOutputWrapper::HOST, 80)
-        connection.get(uri)
+        connection.get(uri, @headers)
       rescue SocketError => e
-        raise "Net::HTTP SocketError: #{e.message}, requested uri: #{uri}, headers: "#{@headers}"
-      rescue IOERROR => ioe
-        raise ioe.message
+        raise "Net::HTTP SocketError: #{e.message}, requested uri: #{uri}, headers: #{@headers}"
+      # rescue IOERROR => ioe
+      #   raise ioe.message
       rescue StandardError, Timeout::Error # => e
         # PvOutputWrapper::Logger.logger.error(e)
         sleep 2
@@ -57,22 +55,20 @@ module PvOutputWrapper
       end
     end
 
-    # @arg [Symbol] service name, [Hash] query params.
+    # @arg [Symbol] service name, [Hash{Symbol => String}] query params.
     # @return [Addressable::URI] pvoutput uri.
     def construct_uri(service, params={})
       if invalid_params?(service, params)
         raise ArgumentError,
-              "Invalid params: #{params.keys.inspect} passed to #{service.to_s} request."
+              "Invalid params: #{params.keys.inspect} passed to #{service} request."
       end
 
       service_name = service.to_s.delete "_"
       template = Addressable::Template.new(service_path(service_name))
-      query = valid_params(service, params)
-      query['key'] = @api_key
-      query['sid'] = @system_id
-      template.expand({"query" => query})
+      template.expand({"query" => valid_params(service, params)})
     end
 
+    # @arg [Symbol, Hash<Symbol>]
     # @return [True, False]
     def invalid_params?(service, params)
       invalid_param_keys = params.keys - PvOutputWrapper::VALID_SERVICES[service]

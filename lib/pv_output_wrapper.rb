@@ -14,7 +14,7 @@ module PvOutputWrapper
     :get_statistic => [:df, :dt, :c, :crdr, :sid1],
     :get_status => [:d, :t, :h, :asc, :limit, :from, :to, :ext, :sid1],
     :get_system => [:array2, :tariffs, :teams, :est, :donations, :sid1, :ext],
-    :search => ['q', :ll, :country],
+    :search => [:q, :ll, :country],
   }
 
   class Logger
