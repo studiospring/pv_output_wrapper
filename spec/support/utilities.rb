@@ -26,7 +26,7 @@ class PvoStub
 
   # @return [Addressable::URI].
   def construct_uri
-    uri = "http://http//www.pvoutput.org:80/service/r2/#{@service}.jsp/{?query*}"
+    uri = "http://pvoutput.org:80/service/r2/#{@service}.jsp{?query*}"
     template = Addressable::Template.new(uri)
     template.expand({'query' => @query})
   end
