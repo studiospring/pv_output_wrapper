@@ -32,10 +32,11 @@ module PvOutputWrapper
     # @return [PvOutput::Response]
     def get_response(service, args)
       uri = construct_uri(service, args)
-      PvOutputWrapper::Response.new(service, get_request(uri))
+      PvOutputWrapper::Response.new(uri, get_request(uri))
     end
 
     # @arg [String, URI] full uri including any params.
+    # #return [Net::HTTP]
     def get_request(uri)
       retries = 2
 
