@@ -28,8 +28,10 @@ request = PvOutputWrapper::Request.new('pvoutput_api_key', 'pvoutput_system_id')
 params = { :df => '20150101' }
 # Returns a PvOutputWrapper::Response instance.
 response = request.get_statistic(params)
-# Returns a hash.
-parsed_statistics = response.body.parse
+# Returns the body.
+body = response.body
+# Returns a hash or array of hashes.
+parsed_statistics = response.parse
 ```
 
 ## Development

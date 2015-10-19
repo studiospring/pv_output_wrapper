@@ -45,7 +45,7 @@ describe PvOutputWrapper::Response do
         ]
       end
 
-      it 'should return the response as a hash' do
+      it 'should assign the correct keys to each value' do
         expect(parsed_response).to eq(expected_response)
       end
     end
