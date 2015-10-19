@@ -17,10 +17,10 @@ module PvOutputWrapper
 
     private
 
-    # @arg [Symbol, Hash{Symbol => String}]
+    # @arg [Symbol, Hash{<Symbol, String> => String}]
     def method_missing(service, *args, &block)
       if PvOutputWrapper::VALID_SERVICES.include?(service)
-        params = args.fetch(0, {})
+        params = symbolise_params(args.fetch(0, {}))
         get_response(service, params)
       else
         super
@@ -28,7 +28,7 @@ module PvOutputWrapper
     end
 
     # TODO: raise and log response errors
-    # @arg [Symbol, Hash{Symbol => String}]
+    # @arg [Symbol, Hash{<Symbol, String> => String}]
     # @return [PvOutput::Response]
     def get_response(service, args)
       uri = construct_uri(service, args)
@@ -68,11 +68,17 @@ module PvOutputWrapper
       template.expand({"query" => valid_params(service, params)})
     end
 
-    # @arg [Symbol, Hash<Symbol>]
+    # @arg [Symbol, Hash<Symbol, String>]
     # @return [True, False]
     def invalid_params?(service, params)
       invalid_param_keys = params.keys - PvOutputWrapper::VALID_SERVICES[service]
       invalid_param_keys.any?
+    end
+
+    # @arg [Hash{<Symbol,String> => String] query params.
+    # @return [Hash{<Symbol> => String] allows strings to be passed as param keys.
+    def symbolise_params(params)
+      params.reduce({}) { |a, (k, v)| a.merge(k.to_sym => v) }
     end
 
     # NOTE: this does not handle required params (bc there are none at present)

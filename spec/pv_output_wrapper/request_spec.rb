@@ -29,6 +29,10 @@ describe PvOutputWrapper::Request do
       it "should return the correct response body." do
         expect(@request.get_statistic(:df => '20150101').body).to eq(expected_body)
       end
+
+      it "should return the correct response body." do
+        expect(@request.get_statistic('df' => '20150101').body).to eq(expected_body)
+      end
     end
 
     context 'when an unrecognised service is requested' do
