@@ -48,9 +48,10 @@ module PvOutputWrapper
     def parse_line(keys, line)
       # Remove extended data, if any.
       before_semicolon = line.split(/;/)[0]
-      values = before_semicolon.split(/,/)
-      values.map! { |e| nil if e == 'NaN' }
-      Hash[keys.zip(values)]
+      values = before_semicolon.gsub(/,NaN,/, ',,').split(/,/)
+      h = {}
+      keys.each_with_index { |e, i| h[e] = values[i].to_s }
+      h
     end
 
     # @return [Array].
