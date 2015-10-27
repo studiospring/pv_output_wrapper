@@ -105,4 +105,41 @@ describe PvOutputWrapper::Response do
       expect(parsed_response).to eq(expected_response)
     end
   end
+
+  describe 'get_system' do
+    let(:query) { {:sid1 => '1' } }
+    # rubocop:disable Metrics/LineLength
+    let(:body) { "PVOutput Demo,2450,2199,14,175,Enertech,1,2000,CMS,N,NaN,No,20100101,-33.907725,151.026108,5;60.0,20.5,8.0,15.0,NaN,40.0;1,12,93;1" }
+    # rubocop:enable Metrics/LineLength
+    let!(:stub) { PvoStub.new('getsystem', body, query) }
+    let(:parsed_response) { @request.get_system(:sid1 => '1').parse }
+    let(:expected_response) do
+      {
+        :system_name => "PVOutput Demo",
+        :system_size => "2450",
+        :postcode => "2199",
+        :number_of_panels => "14",
+        :panel_power => "175",
+        :panel_brand => "Enertech",
+        :number_of_inverters => "1",
+        :inverter_power => "2000",
+        :inverter_brand => "CMS",
+        :orientation => "N",
+        :array_tilt => nil,
+        :shade => "No",
+        :install_date => "20100101",
+        :latitude => "-33.907725",
+        :longitude => "151.026108",
+        :status_interval => "5",
+        :number_of_panels_secondary => nil,
+        :panel_power_secondary => nil,
+        :orientation_secondary => nil,
+        :array_tilt_secondary => nil,
+      }
+    end
+
+    it 'should return non-extended system info as a hash' do
+      expect(parsed_response).to eq(expected_response)
+    end
+  end
 end
