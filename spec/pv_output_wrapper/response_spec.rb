@@ -70,10 +70,27 @@ describe PvOutputWrapper::Response do
     let(:parsed_response) { @request.get_statistic(:df => '20150101').parse }
     let(:expected_response) do
       {
-        :total_output => '246800',
-        :efficiency => '3.358',
-        :date_from => '20100901',
-        :date_to => '20100927',
+        :energy_generated => "246800",
+        :energy_exported => "246800",
+        :average_generation => "8226",
+        :minimum_generation => "2000",
+        :maximum_generation => "11400",
+        :average_efficiency => "3.358",
+        :outputs => "27",
+        :actual_date_from => "20100901",
+        :actual_date_to => "20100927",
+        :record_efficiency => "4.653",
+        :record_date => "20100916",
+        :energy_consumed => nil,
+        :peak_energy_import => nil,
+        :off_peak_energy_import => nil,
+        :shoulder_energy_import => nil,
+        :high_shoulder_energy_import => nil,
+        :average_consumption => nil,
+        :minimum_consumption => nil,
+        :maximum_consumption => nil,
+        :credit_amount => nil,
+        :debit_amount => nil,
       }
     end
 
