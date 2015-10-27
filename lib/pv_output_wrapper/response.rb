@@ -58,9 +58,9 @@ module PvOutputWrapper
       keys = response_keys
       raise hell unless keys
 
-      body.split("\n").reduce([]) do |a, line|
-        a << parse_line(keys, line)
-      end
+      # rubocop:disable Style/SingleLineBlockParams
+      body.split("\n").reduce([]) { |a, line| a << parse_line(keys, line) }
+      # rubocop:enable Style/SingleLineBlockParams
     end
 
     # @return [Array<Symbol>].

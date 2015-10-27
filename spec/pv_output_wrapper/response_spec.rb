@@ -48,6 +48,13 @@ describe PvOutputWrapper::Response do
       it 'should assign the correct keys to each value' do
         expect(parsed_response).to eq(expected_response)
       end
+
+      # describe 'param_keys' do
+      #   let(:param_keys) { @request.search('q' => 'sun').param_keys }
+      #   it 'should return param_keys' do
+      #     expect(param_keys).to eq([:q])
+      #   end
+      # end
     end
 
     context 'when the service is unrecognised' do
