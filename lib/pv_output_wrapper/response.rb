@@ -46,7 +46,11 @@ module PvOutputWrapper
     # [String] one line of the response body.
     # @return [Hash].
     def parse_line(keys, line)
-      Hash[keys.zip line.split(/,/)]
+      # Remove extended data, if any.
+      before_semicolon = line.split(/;/)[0]
+      values = before_semicolon.split(/,/)
+      values.map! { |e| nil if e == 'NaN' }
+      Hash[keys.zip(values)]
     end
 
     # @return [Array].
