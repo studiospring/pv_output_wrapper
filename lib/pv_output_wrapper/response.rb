@@ -1,14 +1,13 @@
 module PvOutputWrapper
-  require 'addressable/uri'
-
   class Response
+    require 'addressable/uri'
     attr_reader :response
 
     SERVICE_MAPPER = {
       # rubocop:disable Metrics/LineLength
-      :get_statistic => %i(energy_generated energy_exported average_generation  minimum_generation maximum_generation average_efficiency outputs actual_date_from actual_date_to record_efficiency record_date energy_consumed peak_energy_import off_peak_energy_import shoulder_energy_import high_shoulder_energy_import average_consumption minimum_consumption maximum_consumption credit_amount debit_amount),
-      :get_status => %i(date time energy_generation power_generation energy_consumption power_consumption efficiency temperature voltage extended_value1 extended_value2 extended_value3 extended_value4 extended_value5 extended_value6),
-      :get_system => %i(field system_name system_size postcode number_of_panels panel_power panel_brand number_of_inverters inverter_power inverter_brand orientation array_tilt shade install_date latitude longitude status_interval number_of_panels_secondary panel_power_secondary orientation_secondary array_tilt_secondary export_tariff import_peak_tariff import_off_peak_tariff import_shoulder_tariff import_high_shoulder_tariff import_daily_charge teams donations extended_data_config monthly_estimations),
+      :getstatistic => %i(energy_generated energy_exported average_generation  minimum_generation maximum_generation average_efficiency outputs actual_date_from actual_date_to record_efficiency record_date energy_consumed peak_energy_import off_peak_energy_import shoulder_energy_import high_shoulder_energy_import average_consumption minimum_consumption maximum_consumption credit_amount debit_amount),
+      :getstatus => %i(date time energy_generation power_generation energy_consumption power_consumption efficiency temperature voltage extended_value1 extended_value2 extended_value3 extended_value4 extended_value5 extended_value6),
+      :getsystem => %i(system_name system_size postcode number_of_panels panel_power panel_brand number_of_inverters inverter_power inverter_brand orientation array_tilt shade install_date latitude longitude status_interval number_of_panels_secondary panel_power_secondary orientation_secondary array_tilt_secondary),
       :search => %i(system_name system_size postcode orientation outputs last_output system_id panel inverter distance latitude longitude),
       # rubocop:enable Metrics/LineLength
     }
